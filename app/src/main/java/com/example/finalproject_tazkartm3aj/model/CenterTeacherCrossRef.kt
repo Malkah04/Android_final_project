@@ -1,0 +1,51 @@
+package com.example.finalproject_tazkartm3aj.model
+
+import androidx.room.ColumnInfo
+import androidx.room.Embedded
+import androidx.room.Entity
+import androidx.room.Junction
+import androidx.room.Relation
+import com.example.finalproject_tazkartm3aj.model.Center
+import com.example.finalproject_tazkartm3aj.model.Teacher
+
+
+@Entity(
+    tableName = "centerTeacherCrossRef",
+    primaryKeys = ["center_id","teacher_id"]
+)
+data class CenterTeacherCrossRef(
+    @ColumnInfo(name ="center_id")
+    val centerId: Int,
+    @ColumnInfo(name ="teacher_id")
+    val teacherId: Int
+)
+
+data class TeacherOfCenter(
+    @Embedded
+    val center: Center,
+    @Relation(
+        parentColumn = "_id",
+        entityColumn = "_id",
+        associateBy = Junction(
+            value = CenterTeacherCrossRef::class,
+            parentColumn = "center_id",
+            entityColumn = "teacher_id"
+        )
+    )
+    val teachers: List<Teacher>
+)
+
+data class CentersOfOneTeacher(
+    @Embedded
+    val teacher: Teacher,
+    @Relation(
+        parentColumn = "_id",
+        entityColumn = "_id",
+        associateBy = Junction(
+            value = CenterTeacherCrossRef::class,
+            parentColumn = "teacher_id",
+            entityColumn = "center_id"
+        )
+    )
+    val centers: List<Center>
+)
