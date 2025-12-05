@@ -6,14 +6,20 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.finalproject_tazkartm3aj.model.Center
 import com.example.finalproject_tazkartm3aj.model.CenterTeacherCrossRef
+import com.example.finalproject_tazkartm3aj.model.Schedule
 import com.example.finalproject_tazkartm3aj.model.Teacher
+import com.example.finalproject_tazkartm3aj.model.Student
 
-@Database(entities = [Center::class , Teacher::class , CenterTeacherCrossRef::class] , version = 1 , exportSchema = false)
+@Database(entities = [Center::class , Teacher::class , CenterTeacherCrossRef::class ,Student::class , Schedule::class] , version = 1 , exportSchema = false)
 abstract class dDatabase : RoomDatabase() {
 
     abstract fun centerDao() : CenterDatabaseDao
     abstract fun teacherDao() : TeacherDatabaseDao
+
+    abstract fun studentDao(): StudentDatabaseDao
     abstract fun centerTeacher() : TeacherCenterDataBaseDao
+
+    abstract fun scheduleDao() : ScheduleDatabaseDao
 
 
     companion object{
