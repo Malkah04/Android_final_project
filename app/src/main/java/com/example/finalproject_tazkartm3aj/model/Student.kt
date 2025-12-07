@@ -13,6 +13,9 @@ data class Student(
     val name:String,
 
     @ColumnInfo(name ="student_phone")
-    val phone:String
+    val phone:String,
+
+    @ColumnInfo(name ="student_year")
+    val year:String
 
 )
