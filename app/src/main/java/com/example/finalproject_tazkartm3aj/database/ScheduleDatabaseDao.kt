@@ -29,4 +29,6 @@ interface ScheduleDatabaseDao {
 
     @Query("delete from schedule where _id = :id")
     suspend fun deleteSchedule(id: Int)
+
+
 }

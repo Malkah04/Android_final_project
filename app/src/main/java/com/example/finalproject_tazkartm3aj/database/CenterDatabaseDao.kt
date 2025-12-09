@@ -29,4 +29,8 @@ interface CenterDatabaseDao {
 
     @Query("delete from Center where _id =:id")
     suspend fun deleteCenter(id:Int)
+
+    @Query("SELECT * FROM Center WHERE center_name LIKE '%' || :name || '%'")
+    fun searchByCenterName(name:String): Flow<List<Center>>
+
 }

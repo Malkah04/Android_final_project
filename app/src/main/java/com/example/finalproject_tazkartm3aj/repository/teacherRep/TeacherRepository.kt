@@ -16,4 +16,6 @@ interface TeacherRepository {
     suspend fun updateInformationOfTeacher(teacher: Teacher)
 
     suspend fun deleteTeacher(id:Int)
+
+    fun searchByTeacherName(name:String) : Flow<List<Teacher>>
 }

@@ -17,4 +17,6 @@ class OfflineCenterRepository(private val centerDao : CenterDatabaseDao) : Cente
 
     override suspend fun deleteCenter(id: Int) =centerDao.deleteCenter(id)
 
+    override fun searchByCenterName(name :String) =centerDao.searchByCenterName(name)
+
 }

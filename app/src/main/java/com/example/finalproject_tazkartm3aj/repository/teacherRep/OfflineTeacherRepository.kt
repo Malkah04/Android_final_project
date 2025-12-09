@@ -18,4 +18,6 @@ class OfflineTeacherRepository(private val teacherDao : TeacherDatabaseDao) : Te
 
     override suspend fun deleteTeacher(id: Int) = teacherDao.deleteTeacher(id)
 
+    override fun searchByTeacherName(name:String) =teacherDao.searchByTeacherName(name)
+
 }

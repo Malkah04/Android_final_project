@@ -16,4 +16,6 @@ interface CenterRepository {
     suspend fun deleteAll()
 
     suspend fun deleteCenter(id:Int)
+
+    fun searchByCenterName(name:String): Flow<List<Center>>
 }

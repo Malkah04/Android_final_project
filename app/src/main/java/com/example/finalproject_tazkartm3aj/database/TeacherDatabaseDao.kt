@@ -28,4 +28,7 @@ interface TeacherDatabaseDao {
 
     @Query("delete from teacher where _id=:id")
     suspend fun deleteTeacher(id:Int)
+
+    @Query("SELECT * FROM Teacher WHERE teacher_name LIKE '%' || :name || '%' ")
+    fun searchByTeacherName(name:String) : Flow<List<Teacher>>
 }

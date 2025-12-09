@@ -3,6 +3,9 @@ package com.example.finalproject_tazkartm3aj.model
 import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.ForeignKey.Companion.CASCADE
+import androidx.room.Index
 import androidx.room.Junction
 import androidx.room.Relation
 import com.example.finalproject_tazkartm3aj.model.Center
@@ -11,7 +14,22 @@ import com.example.finalproject_tazkartm3aj.model.Teacher
 
 @Entity(
     tableName = "centerTeacherCrossRef",
-    primaryKeys = ["center_id","teacher_id"]
+    primaryKeys = ["center_id","teacher_id"] ,
+    indices = [Index(value = ["teacher_id"])] ,
+    foreignKeys = [
+        ForeignKey(
+            entity = Center::class,
+            parentColumns = ["_id"],
+            childColumns = ["center_id"],
+            onDelete = CASCADE
+        ),
+        ForeignKey(
+            entity = Teacher::class,
+            parentColumns = ["_id"],
+            childColumns = ["teacher_id"],
+            onDelete = CASCADE
+        )
+    ]
 )
 data class CenterTeacherCrossRef(
     @ColumnInfo(name ="center_id")
