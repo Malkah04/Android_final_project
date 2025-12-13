@@ -33,4 +33,14 @@ interface CenterDatabaseDao {
     @Query("SELECT * FROM Center WHERE center_name LIKE '%' || :name || '%'")
     fun searchByCenterName(name:String): Flow<List<Center>>
 
+
+    @Query("""
+        SELECT EXISTS(
+            SELECT 1 FROM Center
+            WHERE center_name = :name
+            AND center_address LIKE '%' || :address || '%'
+        )
+    """)
+    suspend fun isCenterExist(name :String , address :String) : Boolean
+
 }

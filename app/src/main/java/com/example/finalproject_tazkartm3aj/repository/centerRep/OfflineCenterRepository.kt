@@ -19,4 +19,7 @@ class OfflineCenterRepository(private val centerDao : CenterDatabaseDao) : Cente
 
     override fun searchByCenterName(name :String) =centerDao.searchByCenterName(name)
 
+    override suspend fun isCenterExist(name :String , address :String) =centerDao.isCenterExist(name,address)
+
+
 }

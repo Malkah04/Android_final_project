@@ -31,4 +31,13 @@ interface TeacherDatabaseDao {
 
     @Query("SELECT * FROM Teacher WHERE teacher_name LIKE '%' || :name || '%' ")
     fun searchByTeacherName(name:String) : Flow<List<Teacher>>
+
+    @Query("""
+        SELECT EXISTS(
+            SELECT 1 FROM Teacher
+            WHERE teacher_name = :name
+            AND teacher_subject = :subject 
+        )
+    """)
+    suspend fun isTeacherExist(name :String , subject :String) : Boolean
 }
