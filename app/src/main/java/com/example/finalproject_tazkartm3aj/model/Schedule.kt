@@ -39,5 +39,9 @@ data class Schedule(
         val time:String,
 
     @ColumnInfo(name ="subject")
-        val subject:String
+        val subject:String,
+
+    @ColumnInfo(name = "image_uri")
+        val imageUri: String? = null
+
 )
