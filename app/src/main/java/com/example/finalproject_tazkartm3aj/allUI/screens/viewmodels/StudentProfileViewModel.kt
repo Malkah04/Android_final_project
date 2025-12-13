@@ -1,4 +1,4 @@
-package com.example.finalproject_tazkartm3aj.viewmodels
+package com.example.finalproject_tazkartm3aj.allUI.screens.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

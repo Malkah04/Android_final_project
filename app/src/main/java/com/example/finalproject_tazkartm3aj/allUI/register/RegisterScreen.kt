@@ -26,6 +26,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 @Composable
 fun RegisterScreen(
     onLoginClick: () -> Unit,
+    onRegisterSuccess: () -> Unit,
     viewModel: RegisterViewModel = viewModel()
 ) {
     Column(
@@ -61,7 +62,7 @@ fun RegisterScreen(
             visualTransformation = PasswordVisualTransformation()
         )
 
-        viewModel.error?.let {
+        viewModel.errorMessage?.let {
             Text(
                 text = it,
                 color = Color.Companion.Red,
@@ -72,7 +73,9 @@ fun RegisterScreen(
         Spacer(Modifier.Companion.height(16.dp))
 
         Button(
-            onClick = { viewModel.register() },
+            onClick = { viewModel.register()
+                if (viewModel.errorMessage == null) onRegisterSuccess()
+            },
             modifier = Modifier.Companion.fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(
                 contentColor = Color.White,
@@ -98,6 +101,6 @@ fun RegisterScreen(
 fun RegisterPreview() {
     RegisterScreen(
         {},
-        RegisterViewModel()
+        {},RegisterViewModel()
     )
 }

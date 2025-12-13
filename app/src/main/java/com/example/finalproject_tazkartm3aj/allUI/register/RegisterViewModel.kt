@@ -4,16 +4,17 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 class RegisterViewModel : ViewModel() {
 
     var name by mutableStateOf("")
     var email by mutableStateOf("")
     var password by mutableStateOf("")
-    var error by mutableStateOf<String?>(null)
+    var errorMessage by mutableStateOf<String?>(null)
 
     fun register() {
-        error = when {
+        errorMessage = when {
             name.isBlank() -> "Name required" //empty
             email.isBlank() -> "Email required"
             !email.contains("@") -> "Invalid email address "

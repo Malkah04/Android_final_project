@@ -9,6 +9,7 @@ import com.example.finalproject_tazkartm3aj.model.CenterTeacherCrossRef
 import com.example.finalproject_tazkartm3aj.model.Schedule
 import com.example.finalproject_tazkartm3aj.model.Teacher
 import com.example.finalproject_tazkartm3aj.model.Student
+import com.example.finalproject_tazkartm3aj.model.StudentScheduleCrossRef
 
 @Database(entities = [Center::class , Teacher::class , CenterTeacherCrossRef::class ,Student::class , Schedule::class , StudentScheduleCrossRef::class] , version = 1 , exportSchema = false)
 abstract class dDatabase : RoomDatabase() {

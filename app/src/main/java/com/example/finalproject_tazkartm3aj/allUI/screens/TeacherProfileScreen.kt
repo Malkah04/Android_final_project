@@ -1,4 +1,4 @@
-package com.example.finalproject_tazkartm3aj.screens
+package com.example.finalproject_tazkartm3aj.allUI.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -15,11 +15,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.finalproject_tazkartm3aj.viewmodels.TeacherProfileViewModel
-import com.example.finalproject_tazkartm3aj.viewmodels.TeacherVMFactory
+import com.example.finalproject_tazkartm3aj.allUI.screens.viewmodels.TeacherProfileViewModel
+import com.example.finalproject_tazkartm3aj.allUI.screens.viewmodels.TeacherVMFactory
 import com.example.finalproject_tazkartm3aj.repository.teacherRep.OfflineTeacherRepository
 import com.example.finalproject_tazkartm3aj.database.dDatabase
 import androidx.compose.material3.TextField
+import androidx.compose.ui.tooling.preview.Preview
 import kotlinx.coroutines.launch
 
 @Composable
