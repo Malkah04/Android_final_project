@@ -18,4 +18,6 @@ interface TeacherRepository {
     suspend fun deleteTeacher(id:Int)
 
     fun searchByTeacherName(name:String) : Flow<List<Teacher>>
+
+    suspend fun isTeacherExist(name :String , subject :String) : Boolean
 }

@@ -20,4 +20,6 @@ class OfflineTeacherRepository(private val teacherDao : TeacherDatabaseDao) : Te
 
     override fun searchByTeacherName(name:String) =teacherDao.searchByTeacherName(name)
 
+    override suspend fun isTeacherExist(name :String , subject :String) =teacherDao.isTeacherExist(name ,subject)
+
 }

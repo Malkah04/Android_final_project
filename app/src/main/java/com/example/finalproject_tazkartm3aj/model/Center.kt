@@ -4,10 +4,11 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "Center")
+@Entity(tableName = "Center",
+    indices = [androidx.room.Index(value = ["center_name"], unique = true)])
 data class Center(
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     val _id:Int =0,
 
     @ColumnInfo(name ="center_name")

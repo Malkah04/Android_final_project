@@ -18,4 +18,6 @@ interface CenterRepository {
     suspend fun deleteCenter(id:Int)
 
     fun searchByCenterName(name:String): Flow<List<Center>>
+
+   suspend fun isCenterExist(name :String , address :String) : Boolean
 }
