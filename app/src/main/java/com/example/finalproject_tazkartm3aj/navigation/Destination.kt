@@ -21,7 +21,9 @@ enum class Destination(
 ) {
     HOME("home", "Home", Icons.Default.Home, "Home"),
 
-    ScheduleScreen("ScheduleScreen", "ScheduleScreen", Icons.Default.CoPresent, "Schedules"),
+    Schedule("Schedule", "Schedule", Icons.Default.CoPresent, "Schedules"),
+    BOOKING("booking", "Booking", Icons.Default.Schedule, "Booking"),
+
     NOTIFICATIONS("notifications", "Notifications", Icons.Default.Notifications, "Notifications"),
     PROFILE("profile", "Profile", Icons.Default.Person, "Profile"),
 

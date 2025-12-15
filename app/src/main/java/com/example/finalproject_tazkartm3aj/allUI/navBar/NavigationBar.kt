@@ -33,7 +33,8 @@ fun AppNavigationBar(isAdmin : Boolean =false, modifier: Modifier = Modifier ) {
         Destination.HOME,
         Destination.ScheduleScreen,
         Destination.NOTIFICATIONS,
-        Destination.PROFILE
+        Destination.PROFILE,
+        Destination.BOOKING,
     )
 
     val adminList =listOf(
@@ -48,6 +49,7 @@ fun AppNavigationBar(isAdmin : Boolean =false, modifier: Modifier = Modifier ) {
         bottomBar = {
             if (currentRoute != "login" && currentRoute != "register") {
                 NavigationBar(windowInsets = NavigationBarDefaults.windowInsets) {
+
                     val list = if(isAdmin) adminList else userList
                     list.forEach { destination ->
                         NavigationBarItem(

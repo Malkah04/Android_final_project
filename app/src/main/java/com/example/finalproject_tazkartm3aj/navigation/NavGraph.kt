@@ -20,6 +20,7 @@ import com.example.finalproject_tazkartm3aj.allUI.register.RegisterViewModel
 import com.example.finalproject_tazkartm3aj.allUI.scheduleList.Edit
 import com.example.finalproject_tazkartm3aj.allUI.scheduleList.ScheduleListVM
 import com.example.finalproject_tazkartm3aj.allUI.scheduleList.ScheduleScreen
+import com.example.finalproject_tazkartm3aj.allUI.screens.BookingScreen
 import com.example.finalproject_tazkartm3aj.allUI.screens.HomeScreen
 import com.example.finalproject_tazkartm3aj.allUI.screens.NotificationScreen
 import com.example.finalproject_tazkartm3aj.allUI.screens.StudentProfileScreen
@@ -76,6 +77,7 @@ fun AppNavGraph(
                     Destination.HOME -> if (!isAdmin) HomeScreen()
                     Destination.NOTIFICATIONS -> if (!isAdmin) NotificationScreen()
                     Destination.PROFILE -> if (!isAdmin) StudentProfileScreen(1, Modifier)
+                    Destination.BOOKING -> if (!isAdmin) BookingScreen()
                     Destination.ScheduleScreen -> {
                         val scheduleVm: ScheduleListVM = viewModel(factory = ScheduleListVM.factory)
                         ScheduleScreen(isAdmin = isAdmin, ScheduleVM = scheduleVm)
@@ -92,7 +94,6 @@ fun AppNavGraph(
                         val vm: AddScheduleVM = viewModel(factory = AddScheduleVM.factory)
                         AddSchedulePage(vm)
                     }
-
 
                 }
             }

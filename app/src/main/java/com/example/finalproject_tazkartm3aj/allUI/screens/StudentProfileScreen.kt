@@ -51,7 +51,7 @@ fun StudentProfileScreen(studentId: Int, modifier: Modifier = Modifier) {
 
     Surface(
         modifier = Modifier.fillMaxSize(),
-        color = Color(0xFF0D47A1)
+        color = Color(0xFF003366)
     ) {
         student?.let {
             Column(
@@ -71,7 +71,7 @@ fun StudentProfileScreen(studentId: Int, modifier: Modifier = Modifier) {
                     Text(
                         text = it.name.firstOrNull()?.toString() ?: "",
                         fontSize = 50.sp,
-                        color = Color(0xFF0D47A1),
+                        color = Color(0xFF003366),
                         fontWeight = FontWeight.Bold
                     )
                 }
@@ -94,7 +94,7 @@ fun StudentProfileScreen(studentId: Int, modifier: Modifier = Modifier) {
                                 "Name",
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 16.sp,
-                                color = Color(0xFF0D47A1)
+                                color = Color(0xFF003366)
                             )
                             if (isEditing) {
                                 TextField(
@@ -104,7 +104,7 @@ fun StudentProfileScreen(studentId: Int, modifier: Modifier = Modifier) {
                                     modifier = Modifier.width(150.dp)
                                 )
                             } else {
-                                Text(name, fontSize = 16.sp, color = Color(0xFF0D47A1))
+                                Text(name, fontSize = 16.sp, color = Color(0xFF003366))
                             }
                         }
 
@@ -117,7 +117,7 @@ fun StudentProfileScreen(studentId: Int, modifier: Modifier = Modifier) {
                                 "Year",
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 16.sp,
-                                color = Color(0xFF0D47A1)
+                                color = Color(0xFF003366)
                             )
                             if (isEditing) {
                                 TextField(
@@ -127,7 +127,7 @@ fun StudentProfileScreen(studentId: Int, modifier: Modifier = Modifier) {
                                     modifier = Modifier.width(150.dp)
                                 )
                             } else {
-                                Text(year, fontSize = 16.sp, color = Color(0xFF0D47A1))
+                                Text(year, fontSize = 16.sp, color = Color(0xFF003366))
                             }
                         }
 
@@ -140,7 +140,7 @@ fun StudentProfileScreen(studentId: Int, modifier: Modifier = Modifier) {
                                 "Phone",
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 16.sp,
-                                color = Color(0xFF0D47A1)
+                                color = Color(0xFF003366)
                             )
                             if (isEditing) {
                                 TextField(
@@ -150,7 +150,7 @@ fun StudentProfileScreen(studentId: Int, modifier: Modifier = Modifier) {
                                     modifier = Modifier.width(150.dp)
                                 )
                             } else {
-                                Text(phone, fontSize = 16.sp, color = Color(0xFF0D47A1))
+                                Text(phone, fontSize = 16.sp, color = Color(0xFF003366))
                             }
                         }
                     }
@@ -175,7 +175,7 @@ fun StudentProfileScreen(studentId: Int, modifier: Modifier = Modifier) {
                         }
                         isEditing = !isEditing
                     },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF6F00)),
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFF1970E)),
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(if (isEditing) "Save" else "Edit Profile", color = Color.White)
