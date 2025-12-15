@@ -78,7 +78,7 @@ fun AppNavGraph(
                     Destination.NOTIFICATIONS -> if (!isAdmin) NotificationScreen()
                     Destination.PROFILE -> if (!isAdmin) StudentProfileScreen(1, Modifier)
                     Destination.BOOKING -> if (!isAdmin) BookingScreen()
-                    Destination.ScheduleScreen -> {
+                    Destination.Schedule -> {
                         val scheduleVm: ScheduleListVM = viewModel(factory = ScheduleListVM.factory)
                         ScheduleScreen(isAdmin = isAdmin, ScheduleVM = scheduleVm)
                     }
