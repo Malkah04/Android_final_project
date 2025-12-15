@@ -19,7 +19,7 @@ enum class Destination(
     HOME("home", "Home", Icons.Default.Home, "Home"),
 
     TEACHERSLIST("teacherslist", "TeachersList", Icons.Default.CoPresent, "Teachers"),
-    NOTIFICATIONS("notifictions", "Notifictions", Icons.Default.Notifications, "Notifictions"),
+    NOTIFICATIONS("notifications", "Notifications", Icons.Default.Notifications, "Notifications"),
     PROFILE("profile", "Profile", Icons.Default.Person, "Profile")
 
 }

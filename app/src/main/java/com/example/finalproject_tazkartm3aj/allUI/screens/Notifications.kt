@@ -14,6 +14,6 @@ fun NotificationScreen(modifier: Modifier = Modifier) {
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        Text("Notifiction Screen")
+        Text("Notification Screen")
     }
 }

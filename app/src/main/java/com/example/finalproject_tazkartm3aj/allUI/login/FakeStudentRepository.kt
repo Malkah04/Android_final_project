@@ -11,7 +11,7 @@ class FakeStudentRepository : StudentRepository {
     override fun getAllStudents(): Flow<List<Student>> = flowOf(students)
 
     override fun getStudentById(id: Int): Flow<Student> {
-        val student = students.firstOrNull() ?: Student("", "", "", "", "", year = "")
+        val student = students.firstOrNull() ?: Student(0, "", "", "", "", year = "")
         return flowOf(student)
     }
 
