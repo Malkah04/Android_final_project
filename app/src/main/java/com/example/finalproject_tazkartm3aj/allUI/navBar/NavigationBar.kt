@@ -36,7 +36,7 @@ fun AppNavigationBar(modifier: Modifier = Modifier) {
                 NavigationBar(windowInsets = NavigationBarDefaults.windowInsets) {
                     listOf(
                         Destination.HOME,
-                        Destination.TEACHERSLIST,
+                        Destination.ScheduleScreen,
                         Destination.NOTIFICATIONS,
                         Destination.PROFILE
                     ).forEach { destination ->

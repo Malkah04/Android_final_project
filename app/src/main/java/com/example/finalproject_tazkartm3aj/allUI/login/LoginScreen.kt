@@ -26,7 +26,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.finalproject_tazkartm3aj.allUI.FakeStudentRepository.FakeStudentRepository
 import com.example.finalproject_tazkartm3aj.repository.studentRep.OfflineStudentRepository
 import com.example.finalproject_tazkartm3aj.repository.studentRep.StudentRepository
 
@@ -34,11 +33,9 @@ import com.example.finalproject_tazkartm3aj.repository.studentRep.StudentReposit
 fun LoginScreen(
     onRegisterClick: () -> Unit,
     onLoginSuccess: () -> Unit,
-    repository: StudentRepository = FakeStudentRepository() // هنا بنمرر الـ Repo
+    viewModel: LoginViewModel
 ) {
-    val viewModel: LoginViewModel = viewModel(
-        factory = LoginViewModelFactory(repository)
-    )
+
 
     val email = viewModel.email
     val password = viewModel.password
@@ -97,23 +94,12 @@ fun LoginScreen(
             Text("Login", fontSize = 17.sp)
         }
 
-        if (showRegisterOption) {
             TextButton(onClick = onRegisterClick) {
                 Text(
                     text = "Don’t have an account? Register",
                     color = Color(0xFFF1970E)
                 )
-            }
         }
     }
 }
-
-@SuppressLint("ViewModelConstructorInComposable") //to can use LoginViewModel
-@Preview(showBackground = true)
-@Composable
-fun PreviewLogin() {
-    val fakeRepo = FakeStudentRepository()
-    LoginScreen(onRegisterClick = {}, onLoginSuccess = {}, repository = fakeRepo)
-}
-
 

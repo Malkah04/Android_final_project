@@ -11,18 +11,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.finalproject_tazkartm3aj.allUI.FakeStudentRepository.FakeStudentRepository
+import com.example.finalproject_tazkartm3aj.allUI.login.LoginViewModel
 import com.example.finalproject_tazkartm3aj.repository.studentRep.StudentRepository
 
 @Composable
 fun RegisterScreen(
     onLoginClick: () -> Unit,
     onRegisterSuccess: () -> Unit,
-    repository: StudentRepository = FakeStudentRepository() // نمرر الـ Repo هنا
+    viewModel: RegisterViewModel
 ) {
-    val viewModel: RegisterViewModel = viewModel(
-        factory = RegisterViewModelFactory(repository)
-    )
 
     val error = viewModel.errorMessage
 
@@ -102,13 +99,4 @@ fun RegisterScreen(
             )
         }
     }
-}
-
-@SuppressLint("ViewModelConstructorInComposable")
-@Preview(showBackground = true)
-@Preview(showBackground = true)
-@Composable
-fun RegisterPreview() {
-    val fakeRepo = FakeStudentRepository()
-    RegisterScreen(onLoginClick = {}, onRegisterSuccess = {}, repository = fakeRepo)
 }

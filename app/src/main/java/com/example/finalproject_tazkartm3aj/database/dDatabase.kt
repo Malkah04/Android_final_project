@@ -11,7 +11,7 @@ import com.example.finalproject_tazkartm3aj.model.Teacher
 import com.example.finalproject_tazkartm3aj.model.Student
 import com.example.finalproject_tazkartm3aj.model.StudentScheduleCrossRef
 
-@Database(entities = [Center::class , Teacher::class , CenterTeacherCrossRef::class ,Student::class , Schedule::class , StudentScheduleCrossRef::class] , version = 1 , exportSchema = false)
+@Database(entities = [Center::class , Teacher::class , CenterTeacherCrossRef::class ,Student::class , Schedule::class , StudentScheduleCrossRef::class] , version = 2 , exportSchema = false)
 abstract class dDatabase : RoomDatabase() {
 
     abstract fun centerDao() : CenterDatabaseDao
@@ -31,7 +31,7 @@ abstract class dDatabase : RoomDatabase() {
 
         fun getDatabase(context: Context) : dDatabase{
             return Instance ?:synchronized(this){
-                Room.databaseBuilder(context , dDatabase::class.java,"app_database").build().also { Instance =it }
+                Room.databaseBuilder(context , dDatabase::class.java,"app_database").fallbackToDestructiveMigration().build().also { Instance =it }
             }
         }
     }

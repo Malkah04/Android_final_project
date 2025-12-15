@@ -10,10 +10,10 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface StudentDatabaseDao {
-    @Query("select * from student")
+    @Query("select * from Student")
     fun getAllStudents(): Flow<List<Student>>
 
-    @Query("select * from student where _id = :id")
+    @Query("select * from Student where _id = :id")
     fun getStudentById(id: Int): Flow<Student>
 
     @Query("delete from student")
@@ -25,7 +25,7 @@ interface StudentDatabaseDao {
     @Update(onConflict = OnConflictStrategy.REPLACE)
     suspend fun updateInformationOfStudent(student: Student)
 
-    @Query("delete from student where _id=:id")
+    @Query("delete from Student where _id=:id")
     suspend fun deleteStudent(id:Int)
 
     @Query("SELECT * FROM Student WHERE student_email = :email LIMIT 1")
