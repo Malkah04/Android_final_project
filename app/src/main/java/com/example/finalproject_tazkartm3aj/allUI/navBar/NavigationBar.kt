@@ -19,8 +19,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.finalproject_tazkartm3aj.navigation.AppNavGraph
 import com.example.finalproject_tazkartm3aj.navigation.Destination
+import com.example.finalproject_tazkartm3aj.ui.theme.FinalProjecttazkartM3ajTheme
 
-@Preview
 @Composable
 fun AppNavigationBar(modifier: Modifier = Modifier) {
     val navController = rememberNavController()
@@ -71,4 +71,12 @@ fun AppNavigationBar(modifier: Modifier = Modifier) {
             modifier = Modifier.padding(contentPadding)
         )
     }
+}
+@Preview
+@Composable
+fun TestNavBar(){
+    FinalProjecttazkartM3ajTheme {
+        AppNavigationBar()
+    }
+
 }

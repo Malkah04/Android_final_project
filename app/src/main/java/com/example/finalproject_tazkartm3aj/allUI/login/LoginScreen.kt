@@ -34,47 +34,50 @@ import com.example.finalproject_tazkartm3aj.repository.studentRep.StudentReposit
 fun LoginScreen(
     onRegisterClick: () -> Unit,
     onLoginSuccess: () -> Unit,
-    viewModel: LoginViewModel = viewModel()
+    repository: StudentRepository = FakeStudentRepository() // هنا بنمرر الـ Repo
 ) {
+    val viewModel: LoginViewModel = viewModel(
+        factory = LoginViewModelFactory(repository)
+    )
+
     val email = viewModel.email
     val password = viewModel.password
     val error = viewModel.errorMessage
 
     Column(
-        modifier = Modifier.Companion
+        modifier = Modifier
             .fillMaxSize()
             .padding(24.dp),
         verticalArrangement = Arrangement.Center
     ) {
-
         Text("Login", style = MaterialTheme.typography.headlineMedium, color = Color(0xFF003366))
 
-        Spacer(Modifier.Companion.height(16.dp))
+        Spacer(Modifier.height(16.dp))
 
         OutlinedTextField(
             value = email,
             onValueChange = { viewModel.email = it },
             label = { Text("Email") },
-            modifier = Modifier.Companion.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth()
         )
 
         OutlinedTextField(
             value = password,
             onValueChange = { viewModel.password = it },
             label = { Text("Password") },
-            modifier = Modifier.Companion.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             visualTransformation = PasswordVisualTransformation()
         )
 
         error?.let {
             Text(
                 text = it,
-                color = Color.Companion.Red,
-                modifier = Modifier.Companion.padding(top = 8.dp)
+                color = Color.Red,
+                modifier = Modifier.padding(top = 8.dp)
             )
         }
 
-        Spacer(Modifier.Companion.height(16.dp))
+        Spacer(Modifier.height(16.dp))
 
         var showRegisterOption by remember { mutableStateOf(false) }
 
@@ -85,22 +88,22 @@ fun LoginScreen(
                     onLoginSuccess = onLoginSuccess
                 )
             },
-            modifier = Modifier.Companion.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(
                 contentColor = Color.White,
                 containerColor = Color(0xFF003366)
             )
-
         ) {
             Text("Login", fontSize = 17.sp)
         }
 
         if (showRegisterOption) {
             TextButton(onClick = onRegisterClick) {
-            Text(text = "Don’t have an account? Register" ,
-                color = Color(0xFFF1970E))
-            
-        }
+                Text(
+                    text = "Don’t have an account? Register",
+                    color = Color(0xFFF1970E)
+                )
+            }
         }
     }
 }
@@ -108,10 +111,9 @@ fun LoginScreen(
 @SuppressLint("ViewModelConstructorInComposable") //to can use LoginViewModel
 @Preview(showBackground = true)
 @Composable
-fun  PreviewLogin () {
+fun PreviewLogin() {
     val fakeRepo = FakeStudentRepository()
-    val loginVM = LoginViewModel(fakeRepo)
-    LoginScreen({ },{}, loginVM )
-
+    LoginScreen(onRegisterClick = {}, onLoginSuccess = {}, repository = fakeRepo)
 }
+
 

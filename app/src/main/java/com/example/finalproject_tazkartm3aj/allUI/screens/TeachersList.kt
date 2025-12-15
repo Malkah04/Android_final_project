@@ -46,16 +46,22 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.finalproject_tazkartm3aj.R
+import com.example.finalproject_tazkartm3aj.allUI.screens.viewmodels.FakeTeacherRepository
 import com.example.finalproject_tazkartm3aj.allUI.screens.viewmodels.TeachersListViewModel
+import com.example.finalproject_tazkartm3aj.allUI.screens.viewmodels.TeachersListViewModelFactory
 import com.example.finalproject_tazkartm3aj.model.Teacher
+import com.example.finalproject_tazkartm3aj.repository.teacherRep.TeacherRepository
 import com.example.finalproject_tazkartm3aj.ui.theme.FinalProjecttazkartM3ajTheme
 
 @Composable
 fun TeachersScreen(
-    viewModel: TeachersListViewModel = viewModel()
+    repository: TeacherRepository = FakeTeacherRepository()
 ) {
-    val teachersState = viewModel.teachers.collectAsState()
+    val viewModel: TeachersListViewModel = viewModel(
+        factory = TeachersListViewModelFactory(repository)
+    )
 
+    val teachersState = viewModel.teachers.collectAsState()
     TeachersList(teachers = teachersState.value)
 }
 @OptIn(ExperimentalAnimationApi::class)
@@ -123,12 +129,12 @@ fun TeacherListItem(
             ) {
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
-                        text = stringResource(R.string.hero1),
+                        text = teacher.name,
                         style = MaterialTheme.typography.displaySmall,
                         color = MaterialTheme.colorScheme.onPrimary
                     )
                     Text(
-                        text = stringResource(R.string.description1),
+                        text = teacher.subject,
                         style = MaterialTheme.typography.bodyLarge,
                         color = MaterialTheme.colorScheme.onPrimary
                     )
