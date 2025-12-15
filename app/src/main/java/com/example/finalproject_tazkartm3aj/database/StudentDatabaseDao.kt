@@ -16,7 +16,7 @@ interface StudentDatabaseDao {
     @Query("select * from Student where _id = :id")
     fun getStudentById(id: Int): Flow<Student>
 
-    @Query("delete from student")
+    @Query("delete from Student")
     suspend fun deleteAllStudents()
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

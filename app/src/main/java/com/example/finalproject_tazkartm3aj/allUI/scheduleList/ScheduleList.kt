@@ -26,10 +26,15 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults.buttonColors
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -56,11 +61,12 @@ import kotlinx.coroutines.flow.first
 
 @Composable
 fun ScheduleScreen(
-    ScheduleVM: ScheduleListVM
+    ScheduleVM: ScheduleListVM,
+    isAdmin: Boolean =false
 ) {
     val schedules by ScheduleVM.scheduleList.collectAsState()
 
-    ScheduleList(schedules = schedules , scheduleListVM = ScheduleVM)
+    ScheduleList(schedules = schedules , scheduleListVM = ScheduleVM ,isAdmin =isAdmin)
 }
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
@@ -68,6 +74,7 @@ fun ScheduleList(
     schedules: List<Schedule>,
     scheduleListVM: ScheduleListVM,
     modifier: Modifier = Modifier,
+    isAdmin : Boolean ,
     contentPadding: PaddingValues = PaddingValues(0.dp),
 ) {
     if(schedules.isEmpty()){
@@ -95,6 +102,7 @@ fun ScheduleList(
                     TeacherListItem(
                         schedule = schedule,
                         scheduleListVM,
+                        isAdmin = isAdmin,
                         modifier = Modifier
                             .padding(horizontal = 16.dp, vertical = 8.dp)
                             .animateEnterExit(
@@ -117,6 +125,7 @@ fun ScheduleList(
 fun TeacherListItem(
     schedule: Schedule,
     scheduleListVM: ScheduleListVM,
+    isAdmin: Boolean,
     modifier: Modifier = Modifier
 ) {
     var teacherName by remember { mutableStateOf("Loading...") }
@@ -137,6 +146,27 @@ fun TeacherListItem(
             .fillMaxWidth()
             .padding(vertical = 8.dp, horizontal = 12.dp)
     ) {
+        if (isAdmin) {
+
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                Button(
+                    onClick = {},
+                    colors = buttonColors(containerColor = Color(0xFFF1970E))
+                ) {
+                    Icon(Icons.Default.Edit, contentDescription = "Edit", tint = Color.White)
+                    Spacer(Modifier.width(4.dp))
+                }
+
+                Spacer(modifier= Modifier.width(100.dp).fillMaxWidth())
+                Button(
+                    onClick = { scheduleListVM.deleteSchedule(schedule._id) },
+                    colors = buttonColors(containerColor = Color.Red)
+                ) {
+                    Icon(Icons.Default.Delete, contentDescription = "Delete", tint = Color.White)
+                    Spacer(Modifier.width(4.dp))
+                }
+            }
+        }
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -203,7 +233,9 @@ fun EmptyList(){
             .padding(32.dp),
         contentAlignment = Alignment.Center
     ) {
-        Column (modifier = Modifier.fillMaxWidth().fillMaxHeight(),
+        Column (modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight(),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center){
             Image(
@@ -238,7 +270,6 @@ fun Search(scheduleListVM: ScheduleListVM){
         label = { Text("Search by Teacher, Center, Subject, or Location") },
         modifier = Modifier.fillMaxWidth(),
     )
-
 }
 
 

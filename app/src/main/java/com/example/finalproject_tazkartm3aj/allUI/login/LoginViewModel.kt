@@ -19,6 +19,8 @@ class LoginViewModel (
     private val repository: OfflineStudentRepository
 ) : ViewModel() {
 
+    var Admin by mutableStateOf(false)
+    private set
     var email by mutableStateOf("")
     var password by mutableStateOf("")
     var errorMessage by mutableStateOf<String?>(null)
@@ -27,28 +29,38 @@ class LoginViewModel (
         onEmailNotFound: () -> Unit,
         onLoginSuccess: () -> Unit
     ) {
+        val cleanEmail = email.trim()
+        val cleanPassword = password.trim()
         errorMessage = when {
-            email.isBlank() -> "Email is required"
-            !email.contains("@") -> "Invalid email address "
-            password.isBlank() -> "Password is required"
+            cleanEmail.isBlank() -> "Email is required"
+            !cleanEmail.contains("@") -> "Invalid email address "
+            cleanPassword.isBlank() -> "Password is required"
             else -> null
         }
         if (errorMessage != null) return
 
         viewModelScope.launch {
           try {
-              val student = repository.getStudentByEmail(email)
+
+              val student = repository.getStudentByEmail(cleanEmail)
 
               when {
                   student == null -> {
                       onEmailNotFound()
+                      errorMessage ="you don't have an account"
                   }
 
-                  student.password != password -> {
+                  student.password != cleanPassword -> {
                       errorMessage = "Wrong password"
                   }
 
                   else -> {
+                      if(email.trim()=="admin@gmail.com"){
+                          Admin = true
+                      }
+                      else{
+                          Admin = false
+                      }
                       onLoginSuccess()
                   }
               }

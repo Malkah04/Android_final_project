@@ -22,24 +22,34 @@ import com.example.finalproject_tazkartm3aj.navigation.Destination
 import com.example.finalproject_tazkartm3aj.ui.theme.FinalProjecttazkartM3ajTheme
 
 @Composable
-fun AppNavigationBar(modifier: Modifier = Modifier) {
+fun AppNavigationBar(isAdmin : Boolean =false, modifier: Modifier = Modifier ) {
     val navController = rememberNavController()
     var selectedRoute by rememberSaveable { mutableStateOf(Destination.HOME.route) }
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
 
+    val userList = listOf(
+        Destination.HOME,
+        Destination.ScheduleScreen,
+        Destination.NOTIFICATIONS,
+        Destination.PROFILE
+    )
+
+    val adminList =listOf(
+        Destination.ADDCENTER,
+        Destination.ADDTEACHER,
+        Destination.ADDSCHEDULE,
+        Destination.ScheduleScreen
+    )
+
     Scaffold(
         modifier = modifier,
         bottomBar = {
             if (currentRoute != "login" && currentRoute != "register") {
                 NavigationBar(windowInsets = NavigationBarDefaults.windowInsets) {
-                    listOf(
-                        Destination.HOME,
-                        Destination.ScheduleScreen,
-                        Destination.NOTIFICATIONS,
-                        Destination.PROFILE
-                    ).forEach { destination ->
+                    val list = if(isAdmin) adminList else userList
+                    list.forEach { destination ->
                         NavigationBarItem(
                             selected = selectedRoute == destination.route,
                             onClick = {

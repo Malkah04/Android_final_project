@@ -88,6 +88,18 @@ class ScheduleListVM (
 
     }
 
+    fun editSchedule(updatedSchedule: Schedule){
+        viewModelScope.launch {
+            scheduleRepository.updateSchedule(updatedSchedule)
+        }
+    }
+
+    fun deleteSchedule(id :Int){
+        viewModelScope.launch {
+            scheduleRepository.deleteSchedule(id)
+        }
+    }
+
     companion object{
         val factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {

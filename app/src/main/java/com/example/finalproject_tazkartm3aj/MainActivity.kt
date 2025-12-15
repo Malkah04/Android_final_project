@@ -11,7 +11,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
+import com.example.finalproject_tazkartm3aj.allUI.login.LoginViewModel
 import com.example.finalproject_tazkartm3aj.allUI.navBar.AppNavigationBar
 import com.example.finalproject_tazkartm3aj.ui.theme.FinalProjecttazkartM3ajTheme
 
@@ -22,7 +24,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             FinalProjecttazkartM3ajTheme {
                 val navController = rememberNavController()
-                AppNavigationBar(Modifier)
+                val loginViewModel: LoginViewModel = viewModel(factory = LoginViewModel.factory)
+                AppNavigationBar(isAdmin= loginViewModel.Admin ,Modifier)
             }
         }
     }
