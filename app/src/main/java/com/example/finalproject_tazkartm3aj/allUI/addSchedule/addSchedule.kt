@@ -5,6 +5,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
+import androidx.compose.material3.ButtonDefaults.buttonColors
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -37,7 +38,7 @@ fun AddSchedulePage(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.primary)
+            .background(color=Color(0xFF003366))
             .padding(16.dp)
     ) {
         Text(
@@ -78,7 +79,9 @@ fun AddSchedulePage(
         TextField(teacherId, { teacherId = it }, label = { Text("Teacher ID") }, modifier = Modifier.fillMaxWidth())
         Spacer(Modifier.height(20.dp))
 
-        Button(onClick = { imagePicker.launch("image/*") }) {
+        Button(onClick = { imagePicker.launch("image/*") },
+            colors = buttonColors(containerColor = Color(0xFFF1970E)),
+        ) {
             Text("Choose Image")
         }
 
@@ -107,6 +110,7 @@ fun AddSchedulePage(
                     imageUri
                 )
             },
+            colors = buttonColors(containerColor = Color(0xFFF1970E)),
             enabled = !vm.isProcessing.value &&
                     subject.isNotBlank() &&
                     day.isNotBlank() &&

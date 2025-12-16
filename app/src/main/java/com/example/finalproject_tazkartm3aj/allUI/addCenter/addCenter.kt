@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults.buttonColors
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -37,7 +38,7 @@ fun AddCenterPage(vm: AddCenterVM , modifier: Modifier= Modifier){
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.primary)
+            .background(color=Color(0xFF003366))
             .padding(16.dp)
     ) {
         Text(
@@ -101,7 +102,9 @@ fun AddCenterPage(vm: AddCenterVM , modifier: Modifier= Modifier){
             onClick = {
                 vm.addCenterIfValid(centerName, centerAddress, centerPhone)
             },
-            enabled = !vm.isProcessing.value && centerName.isNotBlank() && centerAddress.isNotBlank()
+            colors = buttonColors(containerColor = Color(0xFFF1970E)),
+
+                    enabled = !vm.isProcessing.value && centerName.isNotBlank() && centerAddress.isNotBlank()
         ) {
             Text("Add Center")
         }
