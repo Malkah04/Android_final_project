@@ -58,13 +58,19 @@ fun AppNavGraph(
         }
 
         composable("register") {
-            val registerViewModel: RegisterViewModel = viewModel(factory = RegisterViewModel.factory)
+            val registerViewModel: RegisterViewModel =
+                viewModel(factory = RegisterViewModel.factory)
 
             RegisterScreen(
                 viewModel = registerViewModel,
                 onLoginClick = { navController.navigate("login") },
                 onRegisterSuccess = {
-                    val dest =if(loginViewModel.Admin) adminLandingPage else userLandingPage
+
+                    loginViewModel.loggedInEmail = registerViewModel.email.trim()
+
+                    val dest =
+                        if (loginViewModel.Admin) adminLandingPage else userLandingPage
+
                     navController.navigate(dest) {
                         popUpTo("register") { inclusive = true }
                     }
@@ -72,12 +78,21 @@ fun AppNavGraph(
             )
         }
 
+
         Destination.entries.forEach { destination ->
             composable(destination.route) {
                 when (destination) {
                     Destination.HOME -> if (!isAdmin) HomeScreen()
                     Destination.NOTIFICATIONS -> if (!isAdmin) NotificationScreen()
-                    Destination.PROFILE -> if (!isAdmin) StudentProfileScreen(1, Modifier)
+                    Destination.PROFILE -> {
+                        StudentProfileScreen(
+                            email = loginViewModel.loggedInEmail ?: "",
+                            navController = navController,
+                            loginViewModel = loginViewModel
+                        )
+                    }
+
+
                     Destination.BOOKING -> if (!isAdmin) BookingScreen()
                     Destination.Schedule -> {
                         val scheduleVm: ScheduleListVM = viewModel(factory = ScheduleListVM.factory)

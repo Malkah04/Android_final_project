@@ -16,21 +16,21 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.finalproject_tazkartm3aj.allUI.screens.viewmodels.TeacherProfileViewModel
-import com.example.finalproject_tazkartm3aj.allUI.screens.viewmodels.TeacherVMFactory
 import com.example.finalproject_tazkartm3aj.repository.teacherRep.OfflineTeacherRepository
 import com.example.finalproject_tazkartm3aj.database.dDatabase
 import androidx.compose.material3.TextField
 import kotlinx.coroutines.launch
-
 @Composable
-fun TeacherProfileScreen(teacherId: Int, modifier: Modifier = Modifier) {
-
+fun TeacherProfileScreen(
+    teacherId: Int,
+    modifier: Modifier = Modifier
+) {
     val context = LocalContext.current
     val db = dDatabase.getDatabase(context)
     val repo = OfflineTeacherRepository(db.teacherDao())
-    val vm: TeacherProfileViewModel = viewModel(
-        factory = TeacherVMFactory(repo, teacherId)
-    )
+
+    val vm: TeacherProfileViewModel =
+        viewModel(factory = TeacherProfileViewModel.factory(repo))
 
     val teacher by vm.teacher.collectAsState()
 
@@ -39,6 +39,9 @@ fun TeacherProfileScreen(teacherId: Int, modifier: Modifier = Modifier) {
     var phone by remember { mutableStateOf("") }
     var subject by remember { mutableStateOf("") }
 
+    LaunchedEffect(teacherId) {
+        vm.loadTeacherById(teacherId)
+    }
 
     LaunchedEffect(teacher) {
         teacher?.let {
@@ -48,136 +51,155 @@ fun TeacherProfileScreen(teacherId: Int, modifier: Modifier = Modifier) {
         }
     }
 
-    val scope = rememberCoroutineScope()
-
     Surface(
         modifier = Modifier.fillMaxSize(),
-        color = Color(0xFF0D47A1)
+        color = Color.White
     ) {
-        teacher?.let {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
 
+        when (val t = teacher) {
+            null -> {
                 Box(
-                    modifier = Modifier
-                        .size(120.dp)
-                        .clip(CircleShape)
-                        .background(Color.White),
+                    modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) {
-                    Text(
-                        text = it.name.firstOrNull()?.toString() ?: "",
-                        fontSize = 50.sp,
-                        color = Color(0xFF0D47A1),
-                        fontWeight = FontWeight.Bold
-                    )
+                    CircularProgressIndicator()
                 }
+            }
 
-                Spacer(modifier = Modifier.height(16.dp))
-
-                Card(
-                    shape = RoundedCornerShape(16.dp),
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = CardDefaults.cardColors(containerColor = Color.White)
+            else -> {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Column(modifier = Modifier.padding(16.dp)) {
 
+                    Spacer(modifier = Modifier.height(24.dp))
 
-                        Row(
-                            modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
-                            horizontalArrangement = Arrangement.SpaceBetween
+                    Card(
+                        shape = CircleShape,
+                        elevation = CardDefaults.cardElevation(8.dp)
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .size(120.dp)
+                                .background(Color.White),
+                            contentAlignment = Alignment.Center
                         ) {
                             Text(
-                                "Name",
+                                text = t.name.firstOrNull()?.uppercase() ?: "",
+                                fontSize = 48.sp,
                                 fontWeight = FontWeight.Bold,
-                                fontSize = 16.sp,
                                 color = Color(0xFF0D47A1)
                             )
-                            if (isEditing) {
-                                TextField(
-                                    value = name,
-                                    onValueChange = { name = it },
-                                    singleLine = true,
-                                    modifier = Modifier.width(150.dp)
-                                )
-                            } else {
-                                Text(name, fontSize = 16.sp, color = Color(0xFF0D47A1))
-                            }
-                        }
-
-
-                        Row(
-                            modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
-                            horizontalArrangement = Arrangement.SpaceBetween
-                        ) {
-                            Text(
-                                "Phone",
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 16.sp,
-                                color = Color(0xFF0D47A1)
-                            )
-                            if (isEditing) {
-                                TextField(
-                                    value = phone,
-                                    onValueChange = { phone = it },
-                                    singleLine = true,
-                                    modifier = Modifier.width(150.dp)
-                                )
-                            } else {
-                                Text(phone, fontSize = 16.sp, color = Color(0xFF0D47A1))
-                            }
-                        }
-
-                        Row(
-                            modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
-                            horizontalArrangement = Arrangement.SpaceBetween
-                        ) {
-                            Text(
-                                "Subject",
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 16.sp,
-                                color = Color(0xFF0D47A1)
-                            )
-                            if (isEditing) {
-                                TextField(
-                                    value = subject,
-                                    onValueChange = { subject = it },
-                                    singleLine = true,
-                                    modifier = Modifier.width(150.dp)
-                                )
-                            } else {
-                                Text(subject, fontSize = 16.sp, color = Color(0xFF0D47A1))
-                            }
                         }
                     }
-                }
 
-                Spacer(modifier = Modifier.height(24.dp))
+                    Spacer(modifier = Modifier.height(20.dp))
 
-                Button(
-                    onClick = {
-                        if (isEditing) {
-                            teacher?.let { t ->
-                                val updatedTeacher = t.copy(
-                                    name = name,
-                                    phone = phone,
-                                    subject = subject
+                    Card(
+                        shape = RoundedCornerShape(16.dp),
+                        elevation = CardDefaults.cardElevation(8.dp),
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Column(modifier = Modifier.padding(16.dp)) {
+
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(vertical = 8.dp),
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                Text(
+                                    text = "Name",
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color(0xFF0D47A1)
                                 )
-                                scope.launch {
-                                    repo.updateInformationOfTeacher(updatedTeacher)
+                                if (isEditing) {
+                                    TextField(
+                                        value = name,
+                                        onValueChange = { name = it },
+                                        singleLine = true,
+                                        modifier = Modifier.width(160.dp)
+                                    )
+                                } else {
+                                    Text(name, color = Color(0xFF0D47A1))
+                                }
+                            }
+
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(vertical = 8.dp),
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                Text(
+                                    text = "Phone",
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color(0xFF0D47A1)
+                                )
+                                if (isEditing) {
+                                    TextField(
+                                        value = phone,
+                                        onValueChange = { phone = it },
+                                        singleLine = true,
+                                        modifier = Modifier.width(160.dp)
+                                    )
+                                } else {
+                                    Text(phone, color = Color(0xFF0D47A1))
+                                }
+                            }
+
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(vertical = 8.dp),
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                Text(
+                                    text = "Subject",
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color(0xFF0D47A1)
+                                )
+                                if (isEditing) {
+                                    TextField(
+                                        value = subject,
+                                        onValueChange = { subject = it },
+                                        singleLine = true,
+                                        modifier = Modifier.width(160.dp)
+                                    )
+                                } else {
+                                    Text(subject, color = Color(0xFF0D47A1))
                                 }
                             }
                         }
-                        isEditing = !isEditing
-                    },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF6F00)),
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text(if (isEditing) "Save" else "Edit Profile", color = Color.White)
+                    }
+
+                    Spacer(modifier = Modifier.height(24.dp))
+
+                    Button(
+                        onClick = {
+                            if (isEditing) {
+                                vm.updateTeacher(
+                                    t.copy(
+                                        name = name,
+                                        phone = phone,
+                                        subject = subject
+                                    )
+                                )
+                            }
+                            isEditing = !isEditing
+                        },
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color(0xFFFF6F00)
+                        )
+                    ) {
+                        Text(
+                            text = if (isEditing) "Save" else "Edit Profile",
+                            color = Color.White
+                        )
+                    }
                 }
             }
         }

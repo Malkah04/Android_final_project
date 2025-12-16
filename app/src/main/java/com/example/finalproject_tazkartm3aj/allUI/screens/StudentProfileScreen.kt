@@ -1,36 +1,53 @@
 package com.example.finalproject_tazkartm3aj.allUI.screens
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
+import com.example.finalproject_tazkartm3aj.allUI.login.LoginViewModel
 import com.example.finalproject_tazkartm3aj.allUI.screens.viewmodels.StudentProfileViewModel
-import com.example.finalproject_tazkartm3aj.allUI.screens.viewmodels.StudentVMFactory
-import com.example.finalproject_tazkartm3aj.repository.studentRep.OfflineStudentRepository
-import com.example.finalproject_tazkartm3aj.database.dDatabase
-import androidx.compose.material3.TextField
-import kotlinx.coroutines.launch
 
 @Composable
-fun StudentProfileScreen(studentId: Int, modifier: Modifier = Modifier) {
-    val context = LocalContext.current
-    val db = dDatabase.getDatabase(context)
-    val repo = OfflineStudentRepository(db.studentDao())
-
-    val vm: StudentProfileViewModel = viewModel(
-        factory = StudentVMFactory(repo, studentId)
-    )
+fun StudentProfileScreen(
+    email: String,
+    navController: NavHostController,
+    loginViewModel: LoginViewModel,
+) {
+    val vm: StudentProfileViewModel =
+        viewModel(factory = StudentProfileViewModel.factory())
 
     val student by vm.student.collectAsState()
 
@@ -38,6 +55,12 @@ fun StudentProfileScreen(studentId: Int, modifier: Modifier = Modifier) {
     var name by remember { mutableStateOf("") }
     var year by remember { mutableStateOf("") }
     var phone by remember { mutableStateOf("") }
+
+    LaunchedEffect(email) {
+        if (email.isNotBlank()) {
+            vm.loadStudentByEmail(email)
+        }
+    }
 
     LaunchedEffect(student) {
         student?.let {
@@ -47,138 +70,177 @@ fun StudentProfileScreen(studentId: Int, modifier: Modifier = Modifier) {
         }
     }
 
-    val scope = rememberCoroutineScope()
-
     Surface(
         modifier = Modifier.fillMaxSize(),
-        color = Color(0xFF003366)
+        color = Color.White
     ) {
-        student?.let {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
 
+        when (val s = student) {
+            null -> {
                 Box(
-                    modifier = Modifier
-                        .size(120.dp)
-                        .clip(CircleShape)
-                        .background(Color.White),
+                    modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) {
-                    Text(
-                        text = it.name.firstOrNull()?.toString() ?: "",
-                        fontSize = 50.sp,
-                        color = Color(0xFF003366),
-                        fontWeight = FontWeight.Bold
-                    )
+                    CircularProgressIndicator()
                 }
+            }
 
-                Spacer(modifier = Modifier.height(16.dp))
-
-                Card(
-                    shape = RoundedCornerShape(16.dp),
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = CardDefaults.cardColors(containerColor = Color.White)
+            else -> {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Column(modifier = Modifier.padding(16.dp)) {
 
+                    Spacer(modifier = Modifier.height(24.dp))
 
-                        Row(
-                            modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
-                            horizontalArrangement = Arrangement.SpaceBetween
+                    Card(
+                        shape = CircleShape,
+                        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
+                        colors = CardDefaults.cardColors(containerColor = Color.White)
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .size(120.dp),
+                            contentAlignment = Alignment.Center
                         ) {
                             Text(
-                                "Name",
+                                text = s.name.firstOrNull()?.uppercase() ?: "",
+                                fontSize = 48.sp,
                                 fontWeight = FontWeight.Bold,
-                                fontSize = 16.sp,
                                 color = Color(0xFF003366)
                             )
-                            if (isEditing) {
-                                TextField(
-                                    value = name,
-                                    onValueChange = { name = it },
-                                    singleLine = true,
-                                    modifier = Modifier.width(150.dp)
-                                )
-                            } else {
-                                Text(name, fontSize = 16.sp, color = Color(0xFF003366))
-                            }
-                        }
-
-
-                        Row(
-                            modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
-                            horizontalArrangement = Arrangement.SpaceBetween
-                        ) {
-                            Text(
-                                "Year",
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 16.sp,
-                                color = Color(0xFF003366)
-                            )
-                            if (isEditing) {
-                                TextField(
-                                    value = year,
-                                    onValueChange = { year = it },
-                                    singleLine = true,
-                                    modifier = Modifier.width(150.dp)
-                                )
-                            } else {
-                                Text(year, fontSize = 16.sp, color = Color(0xFF003366))
-                            }
-                        }
-
-
-                        Row(
-                            modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
-                            horizontalArrangement = Arrangement.SpaceBetween
-                        ) {
-                            Text(
-                                "Phone",
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 16.sp,
-                                color = Color(0xFF003366)
-                            )
-                            if (isEditing) {
-                                TextField(
-                                    value = phone,
-                                    onValueChange = { phone = it },
-                                    singleLine = true,
-                                    modifier = Modifier.width(150.dp)
-                                )
-                            } else {
-                                Text(phone, fontSize = 16.sp, color = Color(0xFF003366))
-                            }
                         }
                     }
-                }
 
-                Spacer(modifier = Modifier.height(24.dp))
+                    Spacer(modifier = Modifier.height(20.dp))
 
-                Button(
-                    onClick = {
-                        if (isEditing) {
-                            student?.let { s ->
-                                val updatedStudent = s.copy(
-                                    name = name,
-                                    year = year,
-                                    phone = phone
+                    Card(
+                        shape = RoundedCornerShape(16.dp),
+                        modifier = Modifier.fillMaxWidth(),
+                        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
+                        colors = CardDefaults.cardColors(containerColor = Color.White)
+                    ) {
+                        Column(modifier = Modifier.padding(16.dp)) {
+
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(vertical = 8.dp),
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                Text(
+                                    text = "Name",
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color(0xFF003366)
                                 )
 
-                                scope.launch {
-                                    repo.updateInformationOfStudent(updatedStudent)
+                                if (isEditing) {
+                                    TextField(
+                                        value = name,
+                                        onValueChange = { name = it },
+                                        singleLine = true,
+                                        modifier = Modifier.width(160.dp)
+                                    )
+                                } else {
+                                    Text(name, color = Color(0xFF003366))
+                                }
+                            }
+
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(vertical = 8.dp),
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                Text(
+                                    text = "Year",
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color(0xFF003366)
+                                )
+
+                                if (isEditing) {
+                                    TextField(
+                                        value = year,
+                                        onValueChange = { year = it },
+                                        singleLine = true,
+                                        modifier = Modifier.width(160.dp)
+                                    )
+                                } else {
+                                    Text(year, color = Color(0xFF003366))
+                                }
+                            }
+
+                            // PHONE
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(vertical = 8.dp),
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                Text(
+                                    text = "Phone",
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color(0xFF003366)
+                                )
+
+                                if (isEditing) {
+                                    TextField(
+                                        value = phone,
+                                        onValueChange = { phone = it },
+                                        singleLine = true,
+                                        modifier = Modifier.width(160.dp)
+                                    )
+                                } else {
+                                    Text(phone, color = Color(0xFF003366))
                                 }
                             }
                         }
-                        isEditing = !isEditing
-                    },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFF1970E)),
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text(if (isEditing) "Save" else "Edit Profile", color = Color.White)
+                    }
+
+                    Spacer(modifier = Modifier.height(24.dp))
+
+                    Button(
+                        onClick = {
+                            if (isEditing) {
+                                vm.updateStudent(
+                                    s.copy(
+                                        name = name,
+                                        year = year,
+                                        phone = phone
+                                    )
+                                )
+                            }
+                            isEditing = !isEditing
+                        },
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color(0xFFF1970E)
+                        )
+                    ) {
+                        Text(
+                            text = if (isEditing) "Save" else "Edit Profile",
+                            color = Color.White
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    OutlinedButton(
+                        onClick = {
+                            loginViewModel.logout()
+                            navController.navigate("login") {
+                                popUpTo(0)
+                            }
+                        },
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = ButtonDefaults.outlinedButtonColors(
+                            contentColor = Color.Red
+                        )
+                    ) {
+                        Text("Logout")
+                    }
                 }
             }
         }
