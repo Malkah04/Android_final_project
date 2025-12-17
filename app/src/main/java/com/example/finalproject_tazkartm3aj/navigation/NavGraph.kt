@@ -128,6 +128,26 @@ fun AppNavGraph(
                 }
             }
         }
+        composable("schedule/{subjectName}") { backStackEntry ->
+            val scheduleVm: ScheduleListVM = viewModel(factory = ScheduleListVM.factory)
+
+            val subjectName = backStackEntry.arguments?.getString("subjectName")?.let {
+                java.net.URLDecoder.decode(it, "UTF-8")
+            } ?: ""
+
+            ScheduleScreen(
+                isAdmin = isAdmin,
+                ScheduleVM = scheduleVm,
+                onEditClick = { scheduleId ->
+                    navController.navigate("edit_schedule/$scheduleId")
+                },
+                onClickDetails = { scheduleId ->
+                    navController.navigate("details_screen/$scheduleId")
+                },
+                subject = subjectName
+            )
+        }
+
         composable("edit_schedule/{scheduleId}") { backStackEntry ->
             val scheduleVm: ScheduleListVM = viewModel(factory = ScheduleListVM.factory)
             val scheduleId = backStackEntry.arguments?.getString("scheduleId")?.toIntOrNull()

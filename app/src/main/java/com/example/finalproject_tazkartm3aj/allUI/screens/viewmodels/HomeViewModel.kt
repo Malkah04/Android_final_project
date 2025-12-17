@@ -10,12 +10,12 @@ import kotlinx.coroutines.flow.asStateFlow
 
 class HomeViewModel(private val repository: ScheduleRepository) : ViewModel() {
     private val staticSubjects = listOf(
-        SubjectUI(id = 1, name = "كيمياء", color = Color(0xFFE8F5E9), iconRes = com.example.finalproject_tazkartm3aj.R.drawable.chemistry),
-        SubjectUI(id = 2, name = "فيزياء", color = Color(0xFFFFF3E0), iconRes = com.example.finalproject_tazkartm3aj.R.drawable.physics),
-        SubjectUI(id = 3, name = "رياضيات", color = Color(0xFFE3F2FD), iconRes = com.example.finalproject_tazkartm3aj.R.drawable.math),
-        SubjectUI(id = 4, name = "أحياء", color = Color(0xFFF1F8E9), iconRes = com.example.finalproject_tazkartm3aj.R.drawable.dna),
-        SubjectUI(id = 5, name = "عربية", color = Color(0xFFFFEBEE), iconRes = com.example.finalproject_tazkartm3aj.R.drawable.book),
-        SubjectUI(id = 6, name = "إنجليزية", color = Color(0xFFF3E5F5), iconRes = com.example.finalproject_tazkartm3aj.R.drawable.eng)
+        SubjectUI(id = 1, name = "Chemistry", color = Color(0xFFE8F5E9), iconRes = com.example.finalproject_tazkartm3aj.R.drawable.chemistry),
+        SubjectUI(id = 2, name = "Physics", color = Color(0xFFFFF3E0), iconRes = com.example.finalproject_tazkartm3aj.R.drawable.physics),
+        SubjectUI(id = 3, name = "Math", color = Color(0xFFE3F2FD), iconRes = com.example.finalproject_tazkartm3aj.R.drawable.math),
+        SubjectUI(id = 4, name = "Biology", color = Color(0xFFF1F8E9), iconRes = com.example.finalproject_tazkartm3aj.R.drawable.dna),
+        SubjectUI(id = 5, name = "Arabic", color = Color(0xFFFFEBEE), iconRes = com.example.finalproject_tazkartm3aj.R.drawable.book),
+        SubjectUI(id = 6, name = "English", color = Color(0xFFF3E5F5), iconRes = com.example.finalproject_tazkartm3aj.R.drawable.eng)
     )
     private val _subjectsState = MutableStateFlow(staticSubjects)
     val subjectsState: StateFlow<List<SubjectUI>> = _subjectsState.asStateFlow()
