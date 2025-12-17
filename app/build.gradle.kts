@@ -68,13 +68,41 @@ dependencies {
     implementation(libs.androidx.compose.material.icons.extended)
     ksp(libs.androidx.room.compiler)
 
-    implementation("io.coil-kt:coil-compose:2.5.0")
-    androidTestImplementation(libs.androidx.room.testing)
+    // Unit Testing
+    testImplementation(libs.mockito.kotlin) // Keep this - it's the Kotlin-friendly version
+    testImplementation(libs.kotlinx.coroutines.test) // Keep this - using version catalog
+    testImplementation("androidx.arch.core:core-testing:2.2.0") // Keep this - for InstantTaskExecutorRule
     testImplementation(libs.junit)
+
+
+    // Instrumentation Testing
+    androidTestImplementation(libs.androidx.room.testing)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+
+
+    implementation("io.coil-kt:coil-compose:2.5.0")
+    androidTestImplementation(libs.androidx.room.testing)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(platform(libs.androidx.compose.bom))
+    androidTestImplementation(libs.androidx.compose.ui.test.junit4)
+    debugImplementation(libs.androidx.compose.ui.tooling)
+    debugImplementation(libs.androidx.compose.ui.test.manifest)
+
+
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(platform(libs.androidx.compose.bom))
+    androidTestImplementation(libs.androidx.compose.ui.test.junit4)
+
+
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.1")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.1")
+
+
 }

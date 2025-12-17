@@ -59,6 +59,14 @@ class ScheduleListVM(
         }
     }
 
+    suspend fun getCenterAddress(centerId: Int):String{
+        return try {
+            centerRepository.getCenterById(centerId).first()?.address ?:"no address"
+        }catch (e: Exception){
+            "no address"
+        }
+    }
+
     suspend fun getTeacherNameById(teacherId: Int): String {
         return try {
             teacherRepository.getTeacherById(teacherId).first()?.name ?: "unKnown"
