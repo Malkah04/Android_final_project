@@ -53,24 +53,25 @@ fun HomeScreen(navController: NavController){
     )
 
     val subjects by viewModel.subjectsState.collectAsState()
-
     SubjectsSection(
         subjects = subjects,
-        onSubjectSelected = { subjectId ->
-            navController.navigate("schedule_details/$subjectId")
-        })
+        onSubjectSelected = { subject ->
+            val encodedSubject = java.net.URLEncoder.encode(subject.name, "UTF-8")
+            navController.navigate("schedule/$encodedSubject")
+        }
+    )
+
 }
 
 @Composable
-fun SubjectsSection(subjects: List<SubjectUI>,onSubjectSelected: (Int) -> Unit) {
+fun SubjectsSection(subjects: List<SubjectUI>,onSubjectSelected: (SubjectUI) -> Unit) {
     Column(modifier = Modifier.padding(16.dp)) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text("المواد الدراسية", fontWeight = FontWeight.Bold, color = Color.Black)
-
+            Text(" Subjects", fontWeight = FontWeight.Bold, color = Color.Black)
         }
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -86,7 +87,7 @@ fun SubjectsSection(subjects: List<SubjectUI>,onSubjectSelected: (Int) -> Unit) 
         ) {
             items(subjects) { subject ->
                 SubjectCard(subject=subject,
-                    onSubjectClick = onSubjectSelected )
+                    onSubjectClick = { onSubjectSelected(subject) } )
             }
         }
     }

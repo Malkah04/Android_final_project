@@ -64,9 +64,14 @@ fun ScheduleScreen(
     isAdmin: Boolean = false,
     onEditClick: (Int) -> Unit ,
     onClickDetails: (Int) -> Unit,
+    subject :String =""
 
 ) {
-    val schedules by ScheduleVM.scheduleList.collectAsState()
+    val schedules  by if (subject.isNotEmpty()) {
+        ScheduleVM.Search(subject).collectAsState(initial = emptyList())
+    } else {
+        ScheduleVM.scheduleList.collectAsState()
+    }
 
 
     ScheduleList(
