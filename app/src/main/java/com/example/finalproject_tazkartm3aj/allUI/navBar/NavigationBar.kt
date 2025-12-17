@@ -32,7 +32,7 @@ fun AppNavigationBar(isAdmin : Boolean =false, modifier: Modifier = Modifier ) {
     val userList = listOf(
         Destination.HOME,
         Destination.Schedule,
-        Destination.NOTIFICATIONS,
+        Destination.TeacherList,
         Destination.PROFILE,
         Destination.BOOKING,
     )

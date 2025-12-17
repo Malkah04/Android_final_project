@@ -90,7 +90,7 @@ fun AppNavGraph(
                         navController = navController
 
                         )
-                    Destination.NOTIFICATIONS -> if (!isAdmin) {
+                    Destination.TeacherList -> if (!isAdmin) {
                         val userViewModel: UserViewModel = viewModel(factory = UserViewModel.provideFactory())
                         UsersScreen(userViewModel)
                     }

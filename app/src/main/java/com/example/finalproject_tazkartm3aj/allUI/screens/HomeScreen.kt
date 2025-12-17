@@ -1,7 +1,12 @@
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -12,6 +17,7 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -19,21 +25,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.finalproject_tazkartm3aj.database.dDatabase
 import com.example.finalproject_tazkartm3aj.repository.scheduleRep.OfflineScheduleRepository
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 
 data class SubjectUI(
     val id: Int,
@@ -43,12 +44,12 @@ data class SubjectUI(
 )
 
 @Composable
-fun HomeScreen(navController: NavController){
+fun HomeScreen(navController: NavController) {
     val context = LocalContext.current
     val db = dDatabase.getDatabase(context)
     val repo = OfflineScheduleRepository(db.scheduleDao())
 
-     val viewModel: HomeViewModel = viewModel(
+    val viewModel: HomeViewModel = viewModel(
         factory = HomeViewModel.provideFactory(repo)
     )
 
@@ -60,34 +61,40 @@ fun HomeScreen(navController: NavController){
             navController.navigate("schedule/$encodedSubject")
         }
     )
-
 }
 
 @Composable
-fun SubjectsSection(subjects: List<SubjectUI>,onSubjectSelected: (SubjectUI) -> Unit) {
-    Column(modifier = Modifier.padding(16.dp)) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(" Subjects", fontWeight = FontWeight.Bold, color = Color.Black)
-        }
+fun SubjectsSection(subjects: List<SubjectUI>, onSubjectSelected: (SubjectUI) -> Unit) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(color=Color(0xFF003366))
+            .padding(18.dp)
+    ) {
+        Text(
+            text = "Subjects",
+            style = MaterialTheme.typography.headlineMedium,
+            color = MaterialTheme.colorScheme.onPrimary
+        )
+    }
 
-        Spacer(modifier = Modifier.height(16.dp))
+    Spacer(modifier = Modifier.height(30.dp))
 
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .padding( top=60.dp, start = 17.dp,end=17.dp)) {
 
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            modifier = Modifier
-                .fillMaxWidth()
-                .heightIn(max = 1000.dp)
+            verticalArrangement = Arrangement.SpaceAround,
+            modifier = Modifier.fillMaxSize()
         ) {
             items(subjects) { subject ->
-                SubjectCard(subject=subject,
-                    onSubjectClick = { onSubjectSelected(subject) } )
+                SubjectCard(
+                    subject = subject,
+                    onSubjectClick = { onSubjectSelected(subject) }
+                )
             }
         }
     }
@@ -98,6 +105,7 @@ fun SubjectCard(subject: SubjectUI,onSubjectClick: (Int) -> Unit  ) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
+            .height(180.dp)
             .clickable { onSubjectClick(subject.id) },
         shape = RoundedCornerShape(20.dp),
         colors = CardDefaults.cardColors(
@@ -112,20 +120,19 @@ fun SubjectCard(subject: SubjectUI,onSubjectClick: (Int) -> Unit  ) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-
-            androidx.compose.foundation.Image(
+            Image(
                 painter = painterResource(id = subject.iconRes),
                 contentDescription = null,
                 modifier = Modifier
-                    .size(60.dp)
+                    .size(70.dp)
                     .padding(bottom = 8.dp)
             )
 
             Text(
                 text = subject.name,
-                style = androidx.compose.ui.text.TextStyle(
+                style = TextStyle(
                     fontWeight = FontWeight.Bold,
-                    fontSize = 16.sp,
+                    fontSize = 18.sp,
                     color = Color(0xFF424242)
                 )
             )

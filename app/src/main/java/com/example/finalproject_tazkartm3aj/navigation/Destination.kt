@@ -1,6 +1,7 @@
 package com.example.finalproject_tazkartm3aj.navigation
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.AddHome
 import androidx.compose.material.icons.filled.Album
 import androidx.compose.material.icons.filled.CoPresent
@@ -24,7 +25,7 @@ enum class Destination(
     Schedule("Schedule", "Schedule", Icons.Default.CoPresent, "Schedules"),
     BOOKING("booking", "Booking", Icons.Default.Schedule, "Booking"),
 
-    NOTIFICATIONS("notifications", "Notifications", Icons.Default.Notifications, "Notifications"),
+    TeacherList("taecherlist", "TeacherList", Icons.Default.AccountBox, "TeacherList"),
     PROFILE("profile", "Profile", Icons.Default.Person, "Profile"),
 
     ADDTEACHER("addTeacher" , "Add teacher" ,Icons.Default.CoPresent ,"Add teacher" , true),
