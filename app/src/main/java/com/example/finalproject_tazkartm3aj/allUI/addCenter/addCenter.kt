@@ -10,8 +10,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ButtonDefaults.buttonColors
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -24,10 +26,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import com.example.finalproject_tazkartm3aj.allUI.login.LoginViewModel
 
 
 @Composable
-fun AddCenterPage(vm: AddCenterVM , modifier: Modifier= Modifier){
+fun AddCenterPage(vm: AddCenterVM , modifier: Modifier= Modifier,
+                  navController: NavHostController,
+                  loginViewModel: LoginViewModel){
 
     val state =vm.state.value
 
@@ -107,6 +113,23 @@ fun AddCenterPage(vm: AddCenterVM , modifier: Modifier= Modifier){
                     enabled = !vm.isProcessing.value && centerName.isNotBlank() && centerAddress.isNotBlank()
         ) {
             Text("Add Center")
+        }
+        Spacer(Modifier.height(16.dp))
+
+        Button(
+            onClick = {
+                loginViewModel.logout()
+                navController.navigate("login") {
+                    popUpTo(0)
+                }
+            },
+            colors = buttonColors(
+                contentColor = Color.White,
+                containerColor = Color(0xFF003366)
+
+            )
+        ) {
+            Text("Logout")
         }
 
 

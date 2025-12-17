@@ -216,7 +216,7 @@ fun StudentProfileScreen(
                         },
                         modifier = Modifier.fillMaxWidth(),
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFFF1970E)
+                            containerColor = Color(0xFF003366)
                         )
                     ) {
                         Text(
@@ -236,7 +236,9 @@ fun StudentProfileScreen(
                         },
                         modifier = Modifier.fillMaxWidth(),
                         colors = ButtonDefaults.outlinedButtonColors(
-                            contentColor = Color.Red
+                            contentColor = Color.White,
+                            containerColor = Color(0xFFF1970E)
+
                         )
                     ) {
                         Text("Logout")

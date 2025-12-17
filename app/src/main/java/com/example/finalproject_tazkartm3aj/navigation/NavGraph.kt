@@ -122,7 +122,9 @@ fun AppNavGraph(
                     }
                     Destination.ADDCENTER -> if (isAdmin) {
                         val vm: AddCenterVM = viewModel(factory = AddCenterVM.factory)
-                        AddCenterPage(vm)
+                        AddCenterPage(vm,
+                            navController = navController,
+                            loginViewModel = loginViewModel)
                     }
                     Destination.ADDTEACHER -> if (isAdmin) {
                         val vm: AddTeacherVM = viewModel(factory = AddTeacherVM.factory)
