@@ -1,8 +1,8 @@
 package com.example.finalproject_tazkartm3aj.navigation
 
+import HomeScreen
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -22,7 +22,6 @@ import com.example.finalproject_tazkartm3aj.allUI.scheduleList.Edit
 import com.example.finalproject_tazkartm3aj.allUI.scheduleList.ScheduleListVM
 import com.example.finalproject_tazkartm3aj.allUI.scheduleList.ScheduleScreen
 import com.example.finalproject_tazkartm3aj.allUI.screens.BookingScreen
-import com.example.finalproject_tazkartm3aj.allUI.screens.HomeScreen
 import com.example.finalproject_tazkartm3aj.allUI.screens.NotificationScreen
 import com.example.finalproject_tazkartm3aj.allUI.screens.StudentProfileScreen
 import com.example.finalproject_tazkartm3aj.allUI.singleSchedulePage.SinglePage
@@ -83,7 +82,10 @@ fun AppNavGraph(
         Destination.entries.forEach { destination ->
             composable(destination.route) {
                 when (destination) {
-                    Destination.HOME -> if (!isAdmin) HomeScreen()
+                    Destination.HOME -> if (!isAdmin) HomeScreen(
+                        navController = navController
+
+                        )
                     Destination.NOTIFICATIONS -> if (!isAdmin) NotificationScreen()
                     Destination.PROFILE -> {
                         StudentProfileScreen(

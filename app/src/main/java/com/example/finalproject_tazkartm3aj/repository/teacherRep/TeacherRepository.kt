@@ -2,12 +2,13 @@ package com.example.finalproject_tazkartm3aj.repository.teacherRep
 
 import com.example.finalproject_tazkartm3aj.model.Teacher
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 
 interface TeacherRepository {
 
     fun getAllTeacher(): Flow<List<Teacher>>
 
-    fun getTeacherById(id:Int) : Flow<Teacher>
+    fun getTeacherById(id:Int) : Flow<Teacher?>
 
     fun deleteAllTeacher()
 
