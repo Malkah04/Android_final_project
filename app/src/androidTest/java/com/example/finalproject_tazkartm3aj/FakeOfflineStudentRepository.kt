@@ -1,0 +1,6 @@
+package com.example.finalproject_tazkartm3aj
+
+import com.example.finalproject_tazkartm3aj.FakeStudentDatabaseDao
+import com.example.finalproject_tazkartm3aj.repository.studentRep.OfflineStudentRepository
+
+class FakeOfflineStudentRepository : OfflineStudentRepository(FakeStudentDatabaseDao())

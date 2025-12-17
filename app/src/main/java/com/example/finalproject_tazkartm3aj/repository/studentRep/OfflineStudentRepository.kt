@@ -4,7 +4,7 @@ import com.example.finalproject_tazkartm3aj.database.StudentDatabaseDao
 import com.example.finalproject_tazkartm3aj.model.Student
 import kotlinx.coroutines.flow.Flow
 
-class OfflineStudentRepository (
+open class OfflineStudentRepository (
     private val studentDao: StudentDatabaseDao
     ) : StudentRepository {
 

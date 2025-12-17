@@ -17,6 +17,7 @@ material3 = "1.4.0"
 materialIconsCore = "1.7.8"
 navigationCompose = "2.8.4"
 room = "2.7.0"
+uiTestJunit4 = "1.10.0"
 
 [libraries]
 androidx-compose-material-icons-core = { module = "androidx.compose.material:material-icons-core", version.ref = "materialIconsCore" }
@@ -28,6 +29,8 @@ androidx-activity-compose = { group = "androidx.activity", name = "activity-comp
 
 androidx-material3 = { module = "androidx.compose.material3:material3", version.ref = "material3" }
 androidx-room-testing = { group = "androidx.room", name = "room-testing", version.ref = "room" }
+androidx-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "uiTestJunit4" }
+androidx-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "uiTestJunit4" }
 mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockitoKotlin" }
 
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
