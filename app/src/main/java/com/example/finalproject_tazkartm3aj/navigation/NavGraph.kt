@@ -24,6 +24,7 @@ import com.example.finalproject_tazkartm3aj.allUI.scheduleList.ScheduleScreen
 import com.example.finalproject_tazkartm3aj.allUI.screens.BookingScreen
 import com.example.finalproject_tazkartm3aj.allUI.screens.NotificationScreen
 import com.example.finalproject_tazkartm3aj.allUI.screens.StudentProfileScreen
+import com.example.finalproject_tazkartm3aj.allUI.singleSchedulePage.SinglePage
 
 @Composable
 fun AppNavGraph(
@@ -103,7 +104,12 @@ fun AppNavGraph(
                             ScheduleVM = scheduleVm,
                             onEditClick = { scheduleId ->
                                 navController.navigate("edit_schedule/$scheduleId")
+                            },
+
+                            onClickDetails = { scheduleId ->
+                                navController.navigate("details_screen/$scheduleId")
                             }
+
                         )
                     }
                     Destination.ADDCENTER -> if (isAdmin) {
@@ -133,6 +139,29 @@ fun AppNavGraph(
                 Text("Schedule not found")
             }
         }
+
+        composable("details_screen/{scheduleId}") { backStackEntry ->
+            val vm: ScheduleListVM =
+                viewModel(factory = ScheduleListVM.factory)
+
+            val scheduleId =
+                backStackEntry.arguments?.getString("scheduleId")?.toIntOrNull() ?: -1
+
+            val schedule = vm.getScheduleById(scheduleId ?: -1)
+
+            if(schedule !=null){
+                SinglePage(
+                    id = scheduleId,
+                    vm = vm
+                )
+            }
+            else{
+                Text("Schedule not found")
+
+            }
+
+        }
+
 
     }
 }

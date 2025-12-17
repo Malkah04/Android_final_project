@@ -62,7 +62,9 @@ import kotlinx.coroutines.flow.first
 fun ScheduleScreen(
     ScheduleVM: ScheduleListVM,
     isAdmin: Boolean = false,
-    onEditClick: (Int) -> Unit
+    onEditClick: (Int) -> Unit ,
+    onClickDetails: (Int) -> Unit,
+
 ) {
     val schedules by ScheduleVM.scheduleList.collectAsState()
 
@@ -71,7 +73,8 @@ fun ScheduleScreen(
         schedules = schedules,
         scheduleListVM = ScheduleVM,
         isAdmin = isAdmin,
-        onEditClick = onEditClick
+        onEditClick = onEditClick,
+        onClickDetails = onClickDetails
     )
 }
 
@@ -83,6 +86,7 @@ fun ScheduleList(
     modifier: Modifier = Modifier,
     isAdmin: Boolean,
     onEditClick: (Int) -> Unit,
+    onClickDetails: (Int) -> Unit,
     contentPadding: PaddingValues = PaddingValues(0.dp),
 ) {
     if (schedules.isEmpty()) {
@@ -108,6 +112,7 @@ fun ScheduleList(
                         schedule = schedule,
                         scheduleListVM = scheduleListVM,
                         isAdmin = isAdmin,
+                        onClickDetails = { onClickDetails(schedule._id) },
                         onEditClick = { onEditClick(schedule._id) },
                         modifier = Modifier
                             .padding(horizontal = 16.dp, vertical = 8.dp)
@@ -133,6 +138,7 @@ fun TeacherListItem(
     scheduleListVM: ScheduleListVM,
     isAdmin: Boolean,
     onEditClick: () -> Unit,
+    onClickDetails: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     var teacherName by remember { mutableStateOf("Loading...") }
@@ -223,7 +229,7 @@ fun TeacherListItem(
                 )
 
                 Button(
-                    onClick = { /* TODO: Action */ },
+                    onClick = { onClickDetails() },
                     colors = buttonColors(containerColor = Color(0xFFF1970E)),
                     modifier = Modifier.padding(top = 8.dp)
                 ) {
